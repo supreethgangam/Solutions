@@ -1,22 +1,23 @@
 #include <bits/stdc++.h>
-
 using namespace std;
-typedef long long ll;
-const int maxX = 1e6;
-const ll MOD = 1e9+7;
 
-int N, X, c;
-ll dp[maxX+1];
+int main() {
+  int mod = 1e9+7;
+  int n, target;
+  cin >> n >> target;
+  vector<int> x(n);
+  for (int&v : x) cin >> v;
 
-int main(){
-    scanf("%d %d", &N, &X);
-
-    dp[0] = 1;
-    for(int i = 0; i < N; i++){
-        scanf("%d", &c);
-        for(int j = 0; j <= X-c; j++)
-            dp[j+c] = (dp[j+c] + dp[j]) % MOD;
+  vector<vector<int>> dp(n+1,vector<int>(target+1,0));
+  dp[0][0] = 1;
+  for (int i = 1; i <= n; i++) {
+    for (int j = 0; j <= target; j++) {
+      dp[i][j] = dp[i-1][j];
+      int left = j-x[i-1];
+      if (left >= 0) {
+	(dp[i][j] += dp[i][left]) %= mod;
+      }
     }
-
-    printf("%lld\n", dp[X]);
+  }
+  cout << dp[n][target] << endl;
 }
