@@ -1,23 +1,15 @@
 #include <bits/stdc++.h>
-
 using namespace std;
-const int maxN = 1e6;
-const int INF = 0x3f3f3f3f;
 
-int N, dp[maxN+1];
-
-int main(){
-    scanf("%d", &N);
-    fill(dp+1, dp+N+1, INF);
-
-    for(int i = 1; i <= N; i++){
-        int d = i;
-        while(d > 0){
-            if(d%10 != 0)
-                dp[i] = min(dp[i], dp[i-(d%10)]+1);
-            d /= 10;
-        }
+int main() {
+  int n;
+  cin >> n;
+  vector<int> dp(n+1,1e9);
+  dp[0] = 0;
+  for (int i = 0; i <= n; i++) {
+    for (char c : to_string(i)) {
+      dp[i] = min(dp[i], dp[i-(c-'0')]+1);
     }
-
-    printf("%d\n", dp[N]);
+  }
+  cout << dp[n] << endl;
 }
